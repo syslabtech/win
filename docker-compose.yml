@@ -1,0 +1,20 @@
+services:
+  windows:
+    image: dockurr/windows
+    container_name: windows
+    environment:
+      VERSION: "10"
+      DISK_SIZE: "80G"
+      PASSWORD: "B!0031"
+      REGION: "en-US"
+      KEYBOARD: "en-US"
+      RAM_SIZE: "1G"
+    devices:
+      - /dev/kvm
+    cap_add:
+      - NET_ADMIN
+    ports:
+      - 8006:8006
+      - 8000:3389/tcp
+      - 8000:3389/udp
+    stop_grace_period: 2m
