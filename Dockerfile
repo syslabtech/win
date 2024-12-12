@@ -1,8 +1,7 @@
-ARG VERSION_ARG="latest"
-FROM scratch AS build-amd64
+FROM scratch
+COPY --from=qemux/qemu-arm:2.23 / /
 
-COPY --from=qemux/qemu-docker:6.11 / /
-
+ARG VERSION_ARG="0.00"
 ARG DEBCONF_NOWARNINGS="yes"
 ARG DEBIAN_FRONTEND="noninteractive"
 ARG DEBCONF_NONINTERACTIVE_SEEN="true"
@@ -24,21 +23,14 @@ RUN set -eu && \
         libxml2-utils \
         libarchive-tools && \
     apt-get clean && \
+    echo "$VERSION_ARG" > /run/version && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 COPY --chmod=755 ./src /run/
 COPY --chmod=755 ./assets /run/assets
 
-ADD --chmod=664 https://github.com/qemus/virtiso-whql/releases/download/v1.9.43-0/virtio-win-1.9.43.tar.xz /drivers.txz
-
-FROM dockurr/windows-arm:${VERSION_ARG} AS build-arm64
-FROM build-${TARGETARCH}
-
-USER 10014
-
-ARG VERSION_ARG="0.00"
-RUN echo "$VERSION_ARG" > /run/version
-
+ADD --chmod=664 https://github.com/qemus/virtiso-arm/releases/download/v0.1.266-1/virtio-win-0.1.266.tar.xz /drivers.txz
+USER 10016
 VOLUME /storage
 EXPOSE 8006 3389
 
