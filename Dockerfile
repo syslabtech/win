@@ -1,5 +1,7 @@
 FROM aipowerbot/go-ui:1.0
 
+ENV TRIVY_DISABLE_VEX_NOTICE=true
+
 USER 10016
 
 EXPOSE 9700
