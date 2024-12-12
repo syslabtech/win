@@ -2,7 +2,7 @@ schemaVersion: 1.0
 endpoints:
 - name: windows-service-endpoint
   service:
-     port: 8006
+     port: 9700
   type: REST
   networkVisibilities: 
       - Public
